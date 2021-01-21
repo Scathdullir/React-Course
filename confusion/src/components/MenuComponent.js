@@ -1,16 +1,19 @@
 import React from 'react';
-import { Card, CardImg, CardImgOverlay,
-    CardTitle } from 'reactstrap';
+import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
     //first way of implementing functional component
-    function RenderMenuItem ({dish, onClick}) {
+    function RenderMenuItem ({ dish }) {
         return (
             <Card>
-                {/* onClick={() => onClick(dish.id)}> */}
-                <CardImg width="100%" src={dish.image} alt={dish.name} />
-                <CardImgOverlay>
-                    <CardTitle>{dish.name}</CardTitle>
-                </CardImgOverlay>
+                {/* back quotes replace the original value */}
+                {/* for each specific dish, dish.id is evaluated and it will be substituted by the dish.id value, e.g /menu/1 */}
+                <Link to={`/menu/${dish.id}`} >
+                    <CardImg width="100%" src={dish.image} alt={dish.name} />
+                    <CardImgOverlay>
+                        <CardTitle>{dish.name}</CardTitle>
+                    </CardImgOverlay>
+                </Link>
             </Card>
         );
     }
@@ -21,13 +24,22 @@ import { Card, CardImg, CardImgOverlay,
         const menu = props.dishes.map((dish) => {
             return (
                 <div className="col-12 col-md-5 m-1" key={dish.id}>
-                    <RenderMenuItem dish={dish} onClick={props.onClick} />
+                    <RenderMenuItem dish={dish} />
                 </div>
             );
         });
 
         return (
             <div className="container">
+                <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to='/home'>Home</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>Menu</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>Menu</h3>
+                    </div>
+                </div>
                 <div className="row">
                     {menu}
                 </div>
